@@ -6,7 +6,7 @@
 <title>Big Yahu</title>
 <link rel="icon" href="avatar.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Hammersmith+One&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -23,11 +23,12 @@
   body {
     font-family: 'Inter', sans-serif;
     color: #e8ecf2;
-    overflow: hidden;
     background: #0b0c0e;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    padding: 20px;
   }
 
   /* ---------- silver metallic background ---------- */
@@ -38,8 +39,6 @@
       radial-gradient(ellipse 70% 55% at 50% 115%, rgba(170, 180, 198, 0.07), transparent 60%),
       linear-gradient(160deg, #101115 0%, #0b0c0e 45%, #0e1014 100%);
   }
-
-  /* brushed-metal fine lines */
   .bg::after {
     content: '';
     position: absolute; inset: 0;
@@ -47,8 +46,6 @@
       rgba(255, 255, 255, 0.014) 0px, rgba(255, 255, 255, 0.014) 1px,
       transparent 1px, transparent 3px);
   }
-
-  /* slow liquid-metal sheen sweeping across */
   .sheen {
     position: fixed; inset: -50%; z-index: 1;
     background: linear-gradient(115deg,
@@ -64,8 +61,6 @@
     50%  { background-position: -20% -20%; }
     100% { background-position: 120% 120%; }
   }
-
-  /* soft drifting silver glows */
   .glow {
     position: fixed; border-radius: 50%; filter: blur(110px);
     opacity: .12; z-index: 0; pointer-events: none;
@@ -77,34 +72,114 @@
     from { transform: translate(0, 0) scale(1); }
     to   { transform: translate(70px, 50px) scale(1.18); }
   }
-
-  /* vignette */
   .vignette {
     position: fixed; inset: 0; z-index: 1; pointer-events: none;
     background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.5) 100%);
   }
 
-  /* ---------- profile card ---------- */
-  .card {
+  /* ---------- 3-card layout ---------- */
+  .layout {
     position: relative; z-index: 2;
-    width: min(380px, 92vw);
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 22px;
+  }
+
+  .card {
     background: var(--glass);
     border: 1px solid var(--hairline);
     border-radius: 20px;
-    padding: 40px 32px 22px;
-    text-align: center;
     backdrop-filter: blur(18px);
     box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55),
                 inset 0 1px 0 rgba(255, 255, 255, 0.06);
-    animation: rise .8s cubic-bezier(.2,.7,.3,1) both;
+  }
+
+  /* left — socials */
+  .card-socials {
+    width: 190px;
+    padding: 24px 18px;
+    display: flex; flex-direction: column; align-items: center;
+    animation: slideL .7s cubic-bezier(.2,.7,.3,1) both;
+  }
+  @keyframes slideL {
+    from { opacity: 0; transform: translateX(-40px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  /* right — empty for now */
+  .card-right {
+    width: 190px;
+    animation: slideR .7s .1s cubic-bezier(.2,.7,.3,1) both;
+  }
+  @keyframes slideR {
+    from { opacity: 0; transform: translateX(40px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  /* center — profile */
+  .card-main {
+    width: min(380px, 92vw);
+    padding: 40px 32px 22px;
+    text-align: center;
+    animation: rise .8s .05s cubic-bezier(.2,.7,.3,1) both;
   }
   @keyframes rise {
     from { opacity: 0; transform: translateY(26px) scale(.97); }
     to   { opacity: 1; transform: translateY(0) scale(1); }
   }
 
-  .avatar-wrap { position: relative; width: 110px; margin: 0 auto 14px; }
+  .card-title {
+    font-family: 'Hammersmith One', sans-serif;
+    font-size: 15px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--silver2);
+    text-shadow: 0 2px 8px rgba(0,0,0,.6);
+    margin-bottom: 18px;
+  }
 
+  /* ---------- socials icons ---------- */
+  .icons { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+
+  .icon-btn {
+    width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    cursor: pointer;
+    transition: transform .16s ease, background .16s ease, box-shadow .16s ease;
+    animation: pop .5s cubic-bezier(.3,1.4,.5,1) both;
+    position: relative;
+  }
+  .icon-btn:nth-child(1) { animation-delay: .25s; }
+  .icon-btn:nth-child(2) { animation-delay: .35s; }
+  .icon-btn:nth-child(3) { animation-delay: .45s; }
+  @keyframes pop {
+    from { opacity: 0; transform: scale(.4); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  .icon-btn svg { width: 22px; height: 22px; fill: #e8ecf2; }
+  .icon-btn:hover { transform: translateY(-3px); background: rgba(255, 255, 255, 0.10); }
+  .icon-btn.yt:hover { box-shadow: 0 6px 20px rgba(255, 0, 51, 0.35); }
+  .icon-btn.dc:hover { box-shadow: 0 6px 20px rgba(88, 101, 242, 0.40); }
+
+  .icon-btn .tip {
+    position: absolute; left: calc(100% + 12px); top: 50%;
+    transform: translateY(-50%) translateX(-4px);
+    background: rgba(12, 13, 16, 0.92);
+    border: 1px solid var(--hairline);
+    color: #c9cdd6;
+    font-size: 11px;
+    padding: 5px 10px; border-radius: 8px;
+    white-space: nowrap;
+    opacity: 0; pointer-events: none;
+    transition: opacity .15s ease, transform .15s ease;
+    z-index: 5;
+  }
+  .icon-btn:hover .tip { opacity: 1; transform: translateY(-50%) translateX(0); }
+
+  /* ---------- profile ---------- */
+  .avatar-wrap { position: relative; width: 110px; margin: 0 auto 14px; }
   .avatar {
     width: 110px; height: 110px;
     border-radius: 50%;
@@ -122,8 +197,7 @@
 
   h1 {
     font-size: 26px; font-weight: 800; letter-spacing: .5px;
-    background: linear-gradient(90deg,
-      #f5f7fa, #c3c9d4, #ffffff, #8f97a5, #f5f7fa);
+    background: linear-gradient(90deg, #f5f7fa, #c3c9d4, #ffffff, #8f97a5, #f5f7fa);
     background-size: 250% auto;
     -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -132,78 +206,40 @@
   }
   @keyframes shine { to { background-position: 250% center; } }
 
-  .bio {
-    margin-top: 4px;
-    font-size: 13px; color: #9aa1ad;
-    min-height: 20px;
-  }
+  .bio { margin-top: 4px; font-size: 13px; color: #9aa1ad; min-height: 20px; }
   .bio .cursor { animation: blink 1s step-end infinite; color: #c3c9d4; }
   @keyframes blink { 50% { opacity: 0; } }
 
-  /* ---------- icon row ---------- */
-  .icons {
-    display: flex; justify-content: center; gap: 14px;
-    margin: 22px 0 6px;
+  /* ---------- moomoo-style view counter ---------- */
+  .mmo-counter {
+    display: inline-flex; align-items: center; gap: 9px;
+    margin-top: 20px;
+    background: rgba(0, 0, 0, 0.55);
+    border: 2px solid rgba(0, 0, 0, 0.45);
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.10),
+                0 4px 14px rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    padding: 6px 14px 6px 10px;
+  }
+  .mmo-counter .crown { width: 22px; height: 22px; image-rendering: pixelated; }
+  .mmo-counter .digits {
+    height: 18px; display: block;
+    image-rendering: pixelated;
+    filter: brightness(1.5);
   }
 
-  .icon-btn {
-    width: 42px; height: 42px;
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.10);
-    cursor: pointer;
-    transition: transform .16s ease, background .16s ease, box-shadow .16s ease;
-    animation: pop .5s cubic-bezier(.3,1.4,.5,1) both;
-    position: relative;
+  .footer {
+    margin-top: 14px;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    font-size: 11px; color: #565d68; letter-spacing: 1px;
   }
-  .icon-btn:nth-child(1) { animation-delay: .15s; }
-  .icon-btn:nth-child(2) { animation-delay: .25s; }
-  .icon-btn:nth-child(3) { animation-delay: .35s; }
-  @keyframes pop {
-    from { opacity: 0; transform: scale(.4); }
-    to   { opacity: 1; transform: scale(1); }
-  }
+  .footer img { width: 14px; height: 14px; image-rendering: pixelated; opacity: .7; }
 
-  .icon-btn svg { width: 20px; height: 20px; fill: #e8ecf2; transition: fill .16s ease; }
-
-  .icon-btn:hover {
-    transform: translateY(-3px);
-    background: rgba(255, 255, 255, 0.10);
-  }
-  .icon-btn.yt:hover { box-shadow: 0 6px 20px rgba(255, 0, 51, 0.35); }
-  .icon-btn.dc:hover { box-shadow: 0 6px 20px rgba(88, 101, 242, 0.40); }
-
-  /* tooltip with handle */
-  .icon-btn .tip {
-    position: absolute; bottom: calc(100% + 10px); left: 50%;
-    transform: translateX(-50%) translateY(4px);
-    background: rgba(12, 13, 16, 0.92);
-    border: 1px solid var(--hairline);
-    color: #c9cdd6;
-    font-size: 11px; font-weight: 400;
-    padding: 5px 10px; border-radius: 8px;
-    white-space: nowrap;
-    opacity: 0; pointer-events: none;
-    transition: opacity .15s ease, transform .15s ease;
-  }
-  .icon-btn:hover .tip { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-  /* ---------- views ---------- */
-  .views {
-    display: flex; align-items: center; justify-content: center; gap: 7px;
-    margin-top: 12px;
-    font-size: 11px; color: #6b7280; letter-spacing: 1px;
-  }
-  .views svg { width: 14px; height: 14px; fill: #6b7280; }
-  .views img { height: 16px; display: block; }
-
-  /* ---------- music player ---------- */
+  /* ---------- music player (bottom right) ---------- */
   .player {
-    position: fixed; z-index: 2;
-    left: 50%; bottom: 22px;
-    transform: translateX(-50%);
-    width: min(440px, 92vw);
+    position: fixed; z-index: 3;
+    right: 22px; bottom: 22px;
+    width: min(380px, calc(100vw - 44px));
     background: var(--glass);
     border: 1px solid var(--hairline);
     border-radius: 16px;
@@ -211,9 +247,8 @@
     backdrop-filter: blur(18px);
     box-shadow: 0 16px 50px rgba(0, 0, 0, 0.5);
     display: flex; align-items: center; gap: 12px;
-    animation: rise .8s .25s cubic-bezier(.2,.7,.3,1) both;
+    animation: rise .8s .3s cubic-bezier(.2,.7,.3,1) both;
   }
-
   .cover {
     width: 44px; height: 44px; border-radius: 10px;
     object-fit: cover;
@@ -229,20 +264,14 @@
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .track .artist { font-size: 11px; color: #7d8490; }
-
-  .seek {
-    margin-top: 6px; height: 4px; border-radius: 2px;
-    background: rgba(255, 255, 255, 0.10);
-    cursor: pointer; position: relative;
-  }
+  .seek { margin-top: 6px; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, 0.10); cursor: pointer; position: relative; }
   .seek .fill {
     position: absolute; inset: 0 auto 0 0; width: 0%;
     border-radius: 2px;
     background: linear-gradient(90deg, #c3c9d4, #f5f7fa);
     box-shadow: 0 0 8px rgba(210, 220, 238, 0.5);
   }
-
-  .ctrls { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .ctrls { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
   .ctrl-btn {
     background: none; border: none; cursor: pointer; padding: 6px;
     display: flex; border-radius: 10px;
@@ -251,8 +280,23 @@
   .ctrl-btn:hover { background: rgba(255, 255, 255, 0.08); }
   .ctrl-btn svg { width: 16px; height: 16px; fill: #c9cdd6; }
   .ctrl-btn.play svg { width: 22px; height: 22px; fill: #f5f7fa; }
-
+  .ctrl-btn.play.hint { animation: pulseBtn 1.2s ease-in-out infinite; }
+  @keyframes pulseBtn {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(245, 248, 252, 0.0); }
+    50%      { box-shadow: 0 0 0 8px rgba(245, 248, 252, 0.12); }
+  }
   .time { font-size: 10px; color: #6b7280; min-width: 72px; text-align: right; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 980px) {
+    body { overflow-y: auto; }
+    .layout { flex-direction: column; align-items: center; }
+    .card-socials { width: min(380px, 92vw); flex-direction: column; }
+    .icons { flex-direction: row; }
+    .icon-btn .tip { left: 50%; top: calc(100% + 10px); transform: translateX(-50%) translateY(4px); }
+    .icon-btn:hover .tip { transform: translateX(-50%) translateY(0); }
+    .card-right { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -263,43 +307,60 @@
 <div class="glow glow2"></div>
 <div class="vignette"></div>
 
-<div class="card">
-  <div class="avatar-wrap">
-    <img class="avatar" src="avatar.webp" alt="Big Yahu">
+<div class="layout">
+
+  <!-- LEFT: socials -->
+  <div class="card card-socials">
+    <div class="card-title">Socials</div>
+    <div class="icons">
+      <a class="icon-btn yt" href="https://www.youtube.com/@Aunawa" target="_blank" rel="noopener" aria-label="YouTube">
+        <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4L15.8 12l-6.2 3.6z"/></svg>
+        <span class="tip">YouTube — @Aunawa</span>
+      </a>
+      <button class="icon-btn dc" onclick="copyDiscord(this, 'primeministerofisrael22')" aria-label="Discord">
+        <svg viewBox="0 0 24 24"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.2.5c1.7.4 2.5 1 3.3 1.7A16.2 16.2 0 0 0 12 4.6c-2.3 0-4.5.5-6.5 1.6.8-.7 1.8-1.4 3.3-1.7L8.6 3a19.8 19.8 0 0 0-4.9 1.5C.9 9.1.2 13.7.5 18.2a20 20 0 0 0 6 3.1l1.2-2a12.8 12.8 0 0 1-2-1l.5-.4a14.3 14.3 0 0 0 11.6 0l.5.4a12.8 12.8 0 0 1-2 1l1.2 2a20 20 0 0 0 6-3.1c.4-5.2-.7-9.8-3.2-13.8zM8.7 15.3c-1.2 0-2.1-1-2.1-2.3s.9-2.3 2.1-2.3 2.1 1 2.1 2.3-.9 2.3-2.1 2.3zm6.6 0c-1.2 0-2.1-1-2.1-2.3s.9-2.3 2.1-2.3 2.1 1 2.1 2.3-.9 2.3-2.1 2.3z"/></svg>
+        <span class="tip">primeministerofisrael22</span>
+      </button>
+      <button class="icon-btn dc" onclick="copyDiscord(this, 'twin.e8')" aria-label="Discord">
+        <svg viewBox="0 0 24 24"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.2.5c1.7.4 2.5 1 3.3 1.7A16.2 16.2 0 0 0 12 4.6c-2.3 0-4.5.5-6.5 1.6.8-.7 1.8-1.4 3.3-1.7L8.6 3a19.8 19.8 0 0 0-4.9 1.5C.9 9.1.2 13.7.5 18.2a20 20 0 0 0 6 3.1l1.2-2a12.8 12.8 0 0 1-2-1l.5-.4a14.3 14.3 0 0 0 11.6 0l.5.4a12.8 12.8 0 0 1-2 1l1.2 2a20 20 0 0 0 6-3.1c.4-5.2-.7-9.8-3.2-13.8zM8.7 15.3c-1.2 0-2.1-1-2.1-2.3s.9-2.3 2.1-2.3 2.1 1 2.1 2.3-.9 2.3-2.1 2.3zm6.6 0c-1.2 0-2.1-1-2.1-2.3s.9-2.3 2.1-2.3 2.1 1 2.1 2.3-.9 2.3-2.1 2.3z"/></svg>
+        <span class="tip">twin.e8</span>
+      </button>
+    </div>
   </div>
 
-  <h1>Big Yahu</h1>
-  <div class="bio"><span id="typed"></span><span class="cursor">|</span></div>
+  <!-- CENTER: profile -->
+  <div class="card card-main">
+    <div class="avatar-wrap">
+      <img class="avatar" src="avatar.webp" alt="Big Yahu">
+    </div>
 
-  <div class="icons">
-    <a class="icon-btn yt" href="https://www.youtube.com/@Aunawa" target="_blank" rel="noopener" aria-label="YouTube">
-      <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4L15.8 12l-6.2 3.6z"/></svg>
-      <span class="tip">YouTube — @Aunawa</span>
-    </a>
+    <h1>Big Yahu</h1>
+    <div class="bio"><span id="typed"></span><span class="cursor">|</span></div>
 
-    <button class="icon-btn dc" onclick="copyDiscord(this, 'primeministerofisrael22')" aria-label="Discord">
-      <svg viewBox="0 0 24 24"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.2.5c1.7.4 2.5 1 3.3 1.7A16.2 16.2 0 0 0 12 4.6c-2.3 0-4.5.5-6.5 1.6.8-.7 1.8-1.4 3.3-1.7L8.6 3a19.8 19.8 0 0 0-4.9 1.5C.9 9.1.2 13.7.5 18.2a20 20 0 0 0 6 3.1l1.2-2a12.8 12.8 0 0 1-2-1l.5-.4a14.3 14.3 0 0 0 11.6 0l.5.4a12.8 12.8 0 0 1-2 1l1.2 2a20 20 0 0 0 6-3.1c.4-5.2-.7-9.8-3.2-13.8zM8.7 15.3c-1.2 0-2.1-1-2.1-2.3s.9-2.3 2.1-2.3 2.1 1 2.1 2.3-.9 2.3-2.1 2.3zm6.6 0c-1.2 0-2.1-1-2.1-2.3s.9-2.3 2.1-2.3 2.1 1 2.1 2.3-.9 2.3-2.1 2.3z"/></svg>
-      <span class="tip">primeministerofisrael22</span>
-    </button>
+    <div class="mmo-counter" title="profile views">
+      <img class="crown" src="crown.webp" alt="crown">
+      <img class="digits" src="https://count.getloli.com/get/@big-yahu-views?theme=normal" alt="views"
+           onerror="this.parentElement.style.display='none'">
+    </div>
 
-    <button class="icon-btn dc" onclick="copyDiscord(this, 'twin.e8')" aria-label="Discord">
-      <svg viewBox="0 0 24 24"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.2.5c1.7.4 2.5 1 3.3 1.7A16.2 16.2 0 0 0 12 4.6c-2.3 0-4.5.5-6.5 1.6.8-.7 1.8-1.4 3.3-1.7L8.6 3a19.8 19.8 0 0 0-4.9 1.5C.9 9.1.2 13.7.5 18.2a20 20 0 0 0 6 3.1l1.2-2a12.8 12.8 0 0 1-2-1l.5-.4a14.3 14.3 0 0 0 11.6 0l.5.4a12.8 12.8 0 0 1-2 1l1.2 2a20 20 0 0 0 6-3.1c.4-5.2-.7-9.8-3.2-13.8zM8.7 15.3c-1.2 0-2.1-1-2.1-2.3s.9-2.3 2.1-2.3 2.1 1 2.1 2.3-.9 2.3-2.1 2.3zm6.6 0c-1.2 0-2.1-1-2.1-2.3s.9-2.3 2.1-2.3 2.1 1 2.1 2.3-.9 2.3-2.1 2.3z"/></svg>
-      <span class="tip">twin.e8</span>
-    </button>
+    <div class="footer">
+      <img src="skull.webp" alt="">
+      big yahu was here
+      <img src="skull.webp" alt="">
+    </div>
   </div>
 
-  <div class="views">
-    <svg viewBox="0 0 24 24"><path d="M12 5c-5 0-9.3 3.1-11 7.5C2.7 16.9 7 20 12 20s9.3-3.1 11-7.5C21.3 8.1 17 5 12 5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>
-    <img src="https://count.getloli.com/get/@big-yahu-site?theme=minecraft" alt="views" title="profile views"
-         onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'views'}))">
-  </div>
+  <!-- RIGHT: empty for now -->
+  <div class="card card-right"></div>
+
 </div>
 
+<!-- music player: bottom right -->
 <div class="player">
   <img class="cover" id="cover" src="avatar.webp" alt="cover">
   <div class="track">
-    <div class="name" id="trackName">song.mp3</div>
-    <div class="artist">Big Yahu</div>
+    <div class="name">Roy Jones Jr. - Can't Be Touched</div>
+    <div class="artist">now playing</div>
     <div class="seek" id="seek" onclick="seekTo(event)">
       <div class="fill" id="seekFill"></div>
     </div>
@@ -315,7 +376,7 @@
   </div>
 </div>
 
-<audio id="audio" src="song.mp3" preload="metadata"></audio>
+<audio id="audio" src="song.mp3" preload="auto"></audio>
 
 <script>
   /* ---- typing bio ---- */
@@ -343,36 +404,48 @@
   /* ---- music player ---- */
   const audio = document.getElementById('audio');
   const playIcon = document.getElementById('playIcon');
+  const playBtn = document.getElementById('playBtn');
   const cover = document.getElementById('cover');
-  const trackName = document.getElementById('trackName');
   const timeEl = document.getElementById('time');
   const seekFill = document.getElementById('seekFill');
 
   const fmt = s => isFinite(s) ? Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0') : '0:00';
 
   audio.addEventListener('loadedmetadata', () => {
-    trackName.textContent = decodeURIComponent(audio.src.split('/').pop());
     timeEl.textContent = '0:00 / ' + fmt(audio.duration);
   });
   audio.addEventListener('timeupdate', () => {
     seekFill.style.width = (audio.currentTime / audio.duration * 100 || 0) + '%';
     timeEl.textContent = fmt(audio.currentTime) + ' / ' + fmt(audio.duration);
   });
-  audio.addEventListener('error', () => {
-    trackName.textContent = 'add song.mp3';
-    trackName.style.color = '#6b7280';
+  audio.addEventListener('play', () => {
+    playIcon.innerHTML = '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
+    cover.classList.add('spin');
+    playBtn.classList.remove('hint');
+  });
+  audio.addEventListener('pause', () => {
+    playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+    cover.classList.remove('spin');
   });
 
-  function togglePlay() {
-    if (audio.error || !audio.src) return;
-    if (audio.paused) { audio.play(); playIcon.innerHTML = '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>'; cover.classList.add('spin'); }
-    else { audio.pause(); playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>'; cover.classList.remove('spin'); }
-  }
-  function restart() { audio.currentTime = 0; audio.play(); playIcon.innerHTML = '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>'; cover.classList.add('spin'); }
+  function togglePlay() { audio.paused ? audio.play() : audio.pause(); }
+  function restart() { audio.currentTime = 0; audio.play(); }
   function seekTo(e) {
     const rect = e.currentTarget.getBoundingClientRect();
-    audio.currentTime = (e.clientX - rect.left) / rect.width * audio.duration;
+    if (audio.duration) audio.currentTime = (e.clientX - rect.left) / rect.width * audio.duration;
   }
+
+  /* ---- autoplay (falls back to first click if the browser blocks it) ---- */
+  audio.play().catch(() => {
+    playBtn.classList.add('hint');
+    const kick = () => {
+      audio.play();
+      window.removeEventListener('pointerdown', kick);
+      window.removeEventListener('keydown', kick);
+    };
+    window.addEventListener('pointerdown', kick);
+    window.addEventListener('keydown', kick);
+  });
 </script>
 </body>
 </html>
